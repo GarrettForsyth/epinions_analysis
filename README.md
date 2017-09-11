@@ -18,7 +18,9 @@ Epinions.com is a general consumer review site. It allows users to identify whet
 
 Consider an advertiser aiming to market a general consumer item. What users would this advertiser approach to market their product as efficiently as possible?
 This question can be broken down into two sub questions:
+
 	1) are there closely-knit groups within the network?
+
 	2) who are the most influential people within these groups?
 
 ## Analysis of Question:
@@ -48,7 +50,7 @@ The number of edges are approximately linearly proportional to the number of ver
 
 ## Algorithm Analysis:
 
-To Determine the SCCs using Kosaraju's algorithm:
+#### To Determine the SCCs using Kosaraju's algorithm:
 
 input: Graph as adjacency list
 output: an integer array where the index of each entry corresponds to its vertex id, and the value corresponds to which SCC it belongs to (vertices that belong to the same component will have the same value)
@@ -62,13 +64,11 @@ Given a directed graph G.
 DFS-Loop(Graph G):
 	global variable t=0 //tracks finishing times
     global variable s = null // tracks leaders in 2nd pass
-
     Assumes nodes are labeled from 1 to n
     for i=n to 1
 		if i is not yet explored
 			s:= i
 			DFS(G, i)
-
 DFS(Graph G, node i)
 	mark i as explored
 	set leader(i) := s
@@ -78,13 +78,13 @@ DFS(Graph G, node i)
 	t++
 	set f(i) := t // track finishing times in array
 
-### Analysis of Kosaraju's Algorithm:
+#### Analysis of Kosaraju's Algorithm:
 
 To create Grev, all vertices must be iterated over, and for each edge, add its head vertex to the new graph with an edge pointing to the old edge's tail vertex.It will take constant time to add the new edge and vertex pair to the new graph and O(n+m) to iterate over all vertices and edges once.
 
 The rest of the algorithm is just two DFS, which runs in O(n+m) each. The total running time is therefore O(n+m).
 
-To Determine the betweenness centrality of each vertex in the SCC using Brande's algorithm:
+#### To Determine the betweenness centrality of each vertex in the SCC using Brande's algorithm:
 
 For each node w element of the SCC
 	Initialize:
@@ -92,7 +92,6 @@ For each node w element of the SCC
 		 mark predecessor of w to an empty list	
 		 set shortestPaths to w as an empty list 
 		create empty stack S, to track order of explored vertices
-    
      choose a starting node and put it at the beginning of queue, Q.
     set the distance of the starting node , s, to 0. 
 
@@ -116,11 +115,11 @@ For each node w element of the SCC
 		if w is not s set betweennessOfCentrality of w to be the old betweennessOfCentrality + dependency of w
 
 
-### Analysis of Brande's Algorithm
+#### Analysis of Brande's Algorithm
 
 Much of the operations in this algorithm are updating/bookkeeping that can be done in constant time with hash maps/sets. 
 
-The outer loop will iterate over all vertices once. Then :
+The outer loop will iterate over all vertices once. Then
 
 	The first inner loop is a BFS without the initialization phase, that is, it is only scanning the adjacency lists. This takes omega(E) time. This works for an unweighted graph, but could be changed to use Dijkstra's algorithm to accommodate  a weighted graph (though over all running time would be longer).
 
@@ -143,42 +142,53 @@ A testing suite in JUnit was created and each class was tested using a small tes
 
 ## Reflection and Results:
 
-The results of Kosaraju's algorithm run for the following cases:
-
-(Recall, total vertices = 131292)
+The results of Kosaraju's algorithm run for the following cases (Recall, total vertices = 131292) :
 
 Friends arcs only :
+
 	- There were 88609 SCC's found
 	- The biggest SCC contained 41441 vertices
 	- The next biggest SCC contained 15 vertices
 
 Enemy arcs only : 
+
 	- 131828 SCC's found
 	- Every one of the 131828 was of size 1
 
 Unsigned arcs :
+
 	-same results are friends arcs only
 
 First off, the enemy arcs don't seem to formulate any sort of network. This is to be expected, since in this context, an enemy arc means a user simply 'distrusts' another user's review. It is not expected that a user would reciprocate the enemy arc or for any enemy arc groups to form. Comparing the SCC's from the friend graph to the SCC's from the unsigned graph, it seems that most of the arcs are friend arcs. Considering how influence propagates through friend arcs and not enemy arcs in the network, from this point forward only the friends' arcs will be considered.
 
 The second major observation is that there is one giant SCC and the others are negligible in comparison. Having a giant SCC is a common feature in social networks, so this isn't too surprising to see. These results are not too comforting viewed through the eyes of the advertiser. Ideally, many close knit groups would have been identified and the key influential people in each would be approached. One could consider the plausible situation where there would exist closely knit groups within the Epinions community separated by language. That is people would trust or be more influenced by reviews written in their native language while ignoring those in languages they do not understand. It would only take two edges to collapse two of these closely knit groups, making them very fragile. This is likely why these closely knit groups were not found. An interesting extension would be to identify the bridges (edges such that deleting them would split one component into two) in the network in an attempt to break up this large SCC into more distinguished subgroups. Considering the vast difference between the sizes of the largest and second largest SCC, only the largest will be considered from this point on.
 
-Here are the 10 vertices with the highest betweenness centrality found in the largest SCC:
+#### Here are the 10 vertices with the highest betweenness centrality found in the largest SCC:
 
 ID  Betweenness Centrality (unnormalized)
 
+
 59	5.432605660186E12
+
 1	5.053081321758E12
+
 57	3.464923128459E12
+
 324	3.205426860817E12
+
 119	3.115685891292E12
+
 175	3.031304239321E12
+
 44	2.800830296125E12
+
 22	2.38700230062E12
+
 10	2.33086131942E12
+
 78	1.647023917424E12
 
-And here is a graph showing the general distribution of the betweenness centrality :
+#### And here is a graph showing the general distribution of the betweenness centrality :
 
 ![alt text](./extras/betweenessCentralityPlot.png)
 
