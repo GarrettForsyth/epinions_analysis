@@ -19,9 +19,9 @@ Epinions.com is a general consumer review site. It allows users to identify whet
 Consider an advertiser aiming to market a general consumer item. What users would this advertiser approach to market their product as efficiently as possible?
 This question can be broken down into two sub questions:
 
-	1) are there closely-knit groups within the network?
+1) are there closely-knit groups within the network?
 
-	2) who are the most influential people within these groups?
+2) who are the most influential people within these groups?
 
 ## Analysis of Question:
 
@@ -135,9 +135,9 @@ This brings the total complexity of the algorithm to be O(V\*E).
 
 The testing approach was to test teach class individually. To be specific it was tested that:
 
-	- the graph was read in properly
-	- the SCC were correctly identified
-	- the betweenness centrality was correctly calculated
+- the graph was read in properly
+- the SCC were correctly identified
+- the betweenness centrality was correctly calculated
 
 In general, the individual methods within the class were not tested, but rather the high level behaviour of the class.
 
@@ -149,18 +149,18 @@ The results of Kosaraju's algorithm run for the following cases (Recall, total v
 
 Friends arcs only :
 
-	- There were 88609 SCC's found
-	- The biggest SCC contained 41441 vertices
-	- The next biggest SCC contained 15 vertices
+- There were 88609 SCC's found
+- The biggest SCC contained 41441 vertices
+- The next biggest SCC contained 15 vertices
 
 Enemy arcs only : 
 
-	- 131828 SCC's found
-	- Every one of the 131828 was of size 1
+- 131828 SCC's found
+- Every one of the 131828 was of size 1
 
 Unsigned arcs :
 
-	-same results are friends arcs only
+-same results are friends arcs only
 
 First off, the enemy arcs don't seem to formulate any sort of network. This is to be expected, since in this context, an enemy arc means a user simply 'distrusts' another user's review. It is not expected that a user would reciprocate the enemy arc or for any enemy arc groups to form. Comparing the SCC's from the friend graph to the SCC's from the unsigned graph, it seems that most of the arcs are friend arcs. Considering how influence propagates through friend arcs and not enemy arcs in the network, from this point forward only the friends' arcs will be considered.
 
