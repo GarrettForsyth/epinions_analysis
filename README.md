@@ -52,6 +52,7 @@ The number of edges are approximately linearly proportional to the number of ver
 
 #### To Determine the SCCs using Kosaraju's algorithm:
 
+~~~
 input: Graph as adjacency list
 output: an integer array where the index of each entry corresponds to its vertex id, and the value corresponds to which SCC it belongs to (vertices that belong to the same component will have the same value)
 
@@ -77,6 +78,7 @@ DFS(Graph G, node i)
 			DFS(G, j)
 	t++
 	set f(i) := t // track finishing times in array
+~~~
 
 #### Analysis of Kosaraju's Algorithm:
 
@@ -86,6 +88,7 @@ The rest of the algorithm is just two DFS, which runs in O(n+m) each. The total 
 
 #### To Determine the betweenness centrality of each vertex in the SCC using Brande's algorithm:
 
+~~~
 For each node w element of the SCC
 	Initialize:
 		mark w as unvisited by setting distance to -1
@@ -113,7 +116,7 @@ For each node w element of the SCC
 		for each of w's predecssors, v, do
 			set dependency of v to (old dependency of v + (shortestPath to v)/(shortestPath to w)*(1 + dependency of w)) 
 		if w is not s set betweennessOfCentrality of w to be the old betweennessOfCentrality + dependency of w
-
+~~~
 
 #### Analysis of Brande's Algorithm
 
@@ -165,14 +168,14 @@ The second major observation is that there is one giant SCC and the others are n
 
 #### Here are the 10 vertices with the highest betweenness centrality found in the largest SCC:
 
-ID  Betweenness Centrality (unnormalized)
+**ID  Betweenness Centrality (unnormalized)**
 
 
-59	5.432605660186E12
-
-1	5.053081321758E12
-
-57	3.464923128459E12
+| ID     | Betweenness Centrality (unnormalized)|
+| ------ |:------------------------------------:|
+| 59	   |5.432605660186E12                     |
+| 1	     |5.053081321758E12                     |
+| 57	   |3.464923128459E12                     |
 
 324	3.205426860817E12
 
