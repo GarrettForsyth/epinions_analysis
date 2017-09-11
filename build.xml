@@ -1,0 +1,93 @@
+<project name = "epinions_analysis" default = "test" basedir = ".">
+
+	<!-- Define Properties -->
+
+   <property name = "build.dir"         value = "build" />
+   <property name = "src.dir"           value = "src" />
+  
+   <property name ="test.dir"           value ="test"/>
+   <property name ="main.dir"           value ="main"/>
+
+   <property name = "main.java.dir"     value = "main/java"/>
+   <property name = "test.java.dir"     value = "test/java"/>
+   <property name = "report.dir"        value = "${build.dir}/junitreport"/>
+   <property name = "lib.dir"           value = "lib"/>
+   <property name ="testFiles.dir"      value = "testFiles"/>
+
+   <property name = "jar.dir"           value = "${build.dir}/jar"/>
+
+   <property name = "main-class"        value = "Main.java"/> <!-- MAKE SURE TO PUT IN MAIN -->
+
+   <!-- Define Paths -->
+
+   <path id = "classpath.test">
+	   <fileset dir="${lib.dir}" includes="**/*.jar"/>
+	  <pathelement location = "${build.dir}" />
+   </path>
+
+   <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
+	
+   <!-- Define Targets -->
+
+   <target name = "clean" >
+	   <delete dir="${build.dir}"/>
+   </target>
+
+   <target name="copy_project_structure_to_bin">
+		<mkdir dir="${build.dir}"/>
+	    <copy todir="${build.dir}">
+			<fileset dir="${src.dir}" excludes="**/*.java"/> 
+		</copy>
+	</target>
+
+   <target name = "compile" depends = "clean,copy_project_structure_to_bin">
+	   <javac srcdir = "${src.dir}/${main.java.dir}" destdir = "${build.dir}" classpathref="classpath.test"/> 
+   </target>
+
+   <target name ="compile-test" depends = "compile">
+	   <javac srcdir = "${src.dir}/${test.java.dir}" destdir = "${build.dir}" classpathref="classpath.test"/> 
+   </target>
+	
+   <target name="jar" depends="compile-test">
+	   <mkdir dir="${jar.dir}"/>
+	   <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${build.dir}">
+		   <manifest>
+			   <attribute name="Main-Class" value="${main-class}"/>
+		   </manifest>
+	   </jar>
+   </target>
+
+	<target name = "test" depends = "jar">
+	   <mkdir dir="${report.dir}"/>
+	   <junit printsummary="yes">
+		   <classpath>
+			   <path refid = "classpath.test" />
+			   <path refid = "application"/>
+		   </classpath>
+
+		   <formatter type="plain" usefile="false"/>
+
+		   <batchtest haltonfailure="true" fork="yes" todir="${report.dir}">
+			  <fileset dir="${build.dir}" includes="**/*Test*.class"/>
+		  </batchtest>
+	   </junit>
+	</target>
+
+	<target name="junitreport">
+		<junitreport todir="${report.dir}">
+			<fileset dir="${report.dir}" includes="TEST-*.xml"/>
+			<report todir="${report.dir}"/>
+		</junitreport>
+	</target>
+
+   <target name ="run" depends="jar">
+	   <java fork="true" classname="${main-class}"/>
+			<classpath>
+				<path refid="classpath.test"/>
+				<path location="${jar.dir}/${ant.project.name}.jar"/> 
+			</classpath>
+   </target>
+
+   <target name="main" depends="clean,run"/>
+	
+</project>

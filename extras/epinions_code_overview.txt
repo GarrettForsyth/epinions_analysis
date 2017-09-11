@@ -1,0 +1,29 @@
+Code Overview
+
+Class name: Main.java
+
+This class was responsible for being the main class of execution. 
+
+Class name: EpinionsGraph.java
+
+This class was responsible for reading in the Epinions.com data and storing it in a adjacency list graph. Since this the data is signed, this class can read the data in as unsigned (ignoring the sign value), friends only (only adding positive signed edges) or enemies only (only adding negatively signed edges).
+
+Class name: Kosaraju.java
+
+This class computes Kosaraju's two pass algorithm on an adjacency list graph and returns which SCC each vertex belongs to. It also has methods for identifying the largest SCC and printing out the largest SCC's found. 
+
+Class name: BetweennessCentrality.java
+
+This class was responsible for computing the betweenness centrality of an SCC, given a list of vertex in the SCC and the graph the SCC is in. It has two methods: one that will return the betweenness centrality as an array where the indices correspond to the vertex ids, and another method that will write this list to a text file. It also has methods for sorting the data. 
+
+Class name: BetweennessCentralityComparator.java
+
+Used to help sort the betweenness centrality values while maintaining the mapping to its corresponding id.
+
+Design Justification:
+
+The choice to keep the adjacency list in terms of integers corresponding to vertex id's rather than creating separate vertex and edge objects was chosen from a time efficiency perspective. Adding these classes would have added to readability, but it would also have added to the overhead. Brandes' algorithm has a complexity of O(m*n) and is operating on a large graph, so it is important to try to optimize in time wherever possible. 
+
+The division of the classes was aimed to emphasize encapsulation and modularization. For example, the methods related to the SCC were grouped together and the methods relating to the betweenness centrality were grouped together. 
+
+

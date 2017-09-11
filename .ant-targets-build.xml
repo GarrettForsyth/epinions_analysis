@@ -1,0 +1,4 @@
+clean
+compile
+test
+test-compile
