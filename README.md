@@ -124,9 +124,9 @@ Much of the operations in this algorithm are updating/bookkeeping that can be do
 
 The outer loop will iterate over all vertices once. Then
 
-	The first inner loop is a BFS without the initialization phase, that is, it is only scanning the adjacency lists. This takes omega(E) time. This works for an unweighted graph, but could be changed to use Dijkstra's algorithm to accommodate  a weighted graph (though over all running time would be longer).
+The first inner loop is a BFS without the initialization phase, that is, it is only scanning the adjacency lists. This takes omega(E) time. This works for an unweighted graph, but could be changed to use Dijkstra's algorithm to accommodate  a weighted graph (though over all running time would be longer).
 
-	The second inner loop uses the fact that the previous loop has found all the shortest paths from s to other vertices. That is, the actual work inside the for loop is constant! Also, by using a stack, it is ensured that the while loop will start with vertex furthest way from s and proceed in order of decreasing distance between s and w. This means that each edge will only be iterated over once, so the second inner loop will have a complexity of O(E).
+The second inner loop uses the fact that the previous loop has found all the shortest paths from s to other vertices. That is, the actual work inside the for loop is constant! Also, by using a stack, it is ensured that the while loop will start with vertex furthest way from s and proceed in order of decreasing distance between s and w. This means that each edge will only be iterated over once, so the second inner loop will have a complexity of O(E).
 
 This brings the total complexity of the algorithm to be O(V\*E).
 
@@ -176,20 +176,13 @@ The second major observation is that there is one giant SCC and the others are n
 | 59	   |5.432605660186E12                     |
 | 1	     |5.053081321758E12                     |
 | 57	   |3.464923128459E12                     |
-
-324	3.205426860817E12
-
-119	3.115685891292E12
-
-175	3.031304239321E12
-
-44	2.800830296125E12
-
-22	2.38700230062E12
-
-10	2.33086131942E12
-
-78	1.647023917424E12
+| 324	   |3.205426860817E12                     |
+| 119    |3.115685891292E12                     |
+| 175    |3.031304239321E12                     |
+| 44	   |2.800830296125E12                     |
+| 22     |2.38700230062E12                      |
+| 10     |2.33086131942E12                      |
+| 78     |1.647023917424E12                     |
 
 #### And here is a graph showing the general distribution of the betweenness centrality :
 
